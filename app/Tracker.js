@@ -1,20 +1,30 @@
 import React, { PropTypes, Component } from 'react'
-import io from 'socket.io-client'
+import { listen } from './actions'
 
 export default class extends Component {
   static propTypes = {
-    subject: PropTypes.string.isRequired
+    subject: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    const channel = io(`:5000/${this.props.subject}`)
-    channel.on('tweet', (tweet) => {
-      debugger
-    })
+    this.props.dispatch(listen(this.props.subject.name))
   }
 
   render() {
-    return false
+    const { tweets, name } = this.props.subject
+    return (
+      <div>
+        {
+          tweets.map((t, i) => {
+            return (
+              <p key={`${name}-tweets-${i}`}>
+                {t.text}
+              </p>
+            )
+          })
+        }
+      </div>
+    )
   }
 }
-

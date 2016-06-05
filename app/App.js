@@ -18,17 +18,27 @@ class App extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={::this.handleSubmit}>
-          <input type='text' ref={(node) => this.input = node} />
-          <input type='submit' value='Submit' />
-        </form>
-        {
-          this.props.subjects.map((s, i) => {
-            return (
-              <Tracker key={`subjects-${i}`} subject={s.get('name')} />
-            )
-          })
-        }
+        <div className='header'>
+          <h1>Twitter Topic Watch</h1>
+          <form className='pure-form' onSubmit={::this.handleSubmit}>
+            <input type='text' ref={(node) => this.input = node} />
+            &nbsp;
+            <button type='submit' className='pure-button pure-button-primary'>Track!</button>
+          </form>
+        </div>
+        <div className='content'>
+          <div className='pure-g'>
+            {
+              this.props.subjects.map((s, i) => {
+                return (
+                  <div key={`subjects-${i}`} className='pure-u-1-5'>
+                    <Tracker {...this.props} subject={s.toJS()} />
+                  </div>
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
     )
   }
