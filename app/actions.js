@@ -3,6 +3,7 @@ import socket, { channel } from './socket'
 export const TRACK_SUBJECT = 'TRACK_SUBJECT'
 export const TWEETS_RECEIVED = 'TWEETS_RECEIVED'
 export const READ_ALL_TWEETS = 'READ_ALL_TWEETS'
+export const VIEW_MORE_TWEETS = 'VIEW_MORE_TWEETS'
 
 export function trackSubject(subject) {
   return function(dispatch) {
