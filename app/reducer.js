@@ -38,11 +38,14 @@ function prependTweets(state, action) {
 
 function readAll(state, action) {
   const subjects = mapState(state, action, (s) => {
-    const tweets = s.get('tweets').map(t => t.merge({
-      read: true
-    }))
+    const tweets = s.get('tweets').map(t => {
+      if (t.read)
+        return t
 
-    return s.merge({ tweets: tweets })
+      return t.merge({ read: true })
+    })
+
+    return s.merge({ tweets: tweets, visibleCount: 50 })
   })
 
   return state.merge({ subjects: subjects })
@@ -56,11 +59,17 @@ function viewMore(state, action) {
   return state.merge({ subjects: subjects })
 }
 
+function stopTracking(state, action) {
+  const subjects = state.get('subjects').filter(s => s.get('name') != action.subject)
+  return state.merge({ subjects: subjects })
+}
+
 export default createStore(initialState, (state, action) => {
   return {
     [actions.TRACK_SUBJECT]: () => trackNewSubject(state, action),
     [actions.TWEETS_RECEIVED]: () => prependTweets(state, action),
     [actions.READ_ALL_TWEETS]: () => readAll(state, action),
-    [actions.VIEW_MORE_TWEETS]: () => viewMore(state, action)
+    [actions.VIEW_MORE_TWEETS]: () => viewMore(state, action),
+    [actions.STOP_TRACKING]: () => stopTracking(state, action)
   }
 })
