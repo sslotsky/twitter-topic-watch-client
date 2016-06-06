@@ -1,7 +1,8 @@
 import socket, { channel } from './socket'
 
 export const TRACK_SUBJECT = 'TRACK_SUBJECT'
-export const TWEET_RECEIVED = 'TWEET_RECEIVED'
+export const TWEETS_RECEIVED = 'TWEETS_RECEIVED'
+export const READ_ALL_TWEETS = 'READ_ALL_TWEETS'
 
 export function trackSubject(subject) {
   return function(dispatch) {
@@ -12,8 +13,13 @@ export function trackSubject(subject) {
 
 export function listen(subject) {
   return function(dispatch) {
-    channel(subject).on('tweet', tweet => {
-      dispatch({ type: TWEET_RECEIVED, tweet: tweet, subject: subject })
+    channel(subject).on('tweets', tweets => {
+      dispatch({
+        type: TWEETS_RECEIVED,
+        tweets: tweets,
+        subject: subject,
+        read: false
+      })
     })
   }
 }

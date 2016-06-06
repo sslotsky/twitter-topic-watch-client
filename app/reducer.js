@@ -17,14 +17,29 @@ function trackNewSubject(state, action) {
   })
 }
 
-function appendTweet(state, action) {
+function prependTweets(state, action) {
   const subjects = state.get('subjects').map(s => {
     if (s.get('name') != action.subject)
       return s
 
     return s.merge({
-      tweets: [...s.get('tweets'), action.tweet]
+      tweets: [...action.tweets, ...s.get('tweets')]
     })
+  })
+
+  return state.merge({ subjects: subjects })
+}
+
+function readAll(state, action) {
+  const subjects = state.get('subjects').map(s => {
+    if (s.get('name') != action.subject)
+      return s
+
+    const tweets = s.get('tweets').map(t => t.merge({
+      read: true
+    }))
+
+    return s.merge({ tweets: tweets })
   })
 
   return state.merge({ subjects: subjects })
@@ -33,6 +48,7 @@ function appendTweet(state, action) {
 export default createStore(initialState, (state, action) => {
   return {
     [actions.TRACK_SUBJECT]: () => trackNewSubject(state, action),
-    [actions.TWEET_RECEIVED]: () => appendTweet(state, action)
+    [actions.TWEETS_RECEIVED]: () => prependTweets(state, action),
+    [actions.READ_ALL_TWEETS]: () => readAll(state, action)
   }
 })

@@ -13,6 +13,7 @@ class App extends Component {
     e.preventDefault()
     const subject = this.input.value
     this.props.dispatch(trackSubject(subject))
+    this.input.value = null
   }
 
   render() {
