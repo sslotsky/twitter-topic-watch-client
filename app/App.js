@@ -1,18 +1,8 @@
 import React, { PropTypes, Component } from 'react'
-import Tracker from './Tracker'
-import { trackSubject } from './actions'
-import { connect } from 'react-redux'
 
-class App extends Component {
-  static propTypes = {
-    subjects: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
-  }
-
+export default class extends Component {
   handleSubmit(e) {
     e.preventDefault()
-    const subject = this.input.value
-    this.props.dispatch(trackSubject(subject))
     this.input.value = null
   }
 
@@ -28,27 +18,8 @@ class App extends Component {
           </form>
         </div>
         <div className='content'>
-          <div className='pure-g'>
-            {
-              this.props.subjects.map((s, i) => {
-                return (
-                  <div key={`subjects-${i}`} className='pure-u-1-5'>
-                    <Tracker {...this.props} subject={s.toJS()} />
-                  </div>
-                )
-              })
-            }
-          </div>
         </div>
       </div>
     )
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    subjects: state.get('subjects')
-  }
-}
-
-export default connect(mapStateToProps)(App)
