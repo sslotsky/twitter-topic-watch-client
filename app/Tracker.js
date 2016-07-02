@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react'
-import { listen, stopTracking, READ_ALL_TWEETS, VIEW_MORE_TWEETS } from './actions'
+import { READ_ALL_TWEETS, VIEW_MORE_TWEETS } from './actions'
+import * as actionTypes from './constants'
 import { scrollTop } from './utils'
 
 export default class extends Component {
@@ -8,16 +9,12 @@ export default class extends Component {
     dispatch: PropTypes.func.isRequired
   }
 
-  componentDidMount() {
-    this.props.dispatch(listen(this.props.subject.name))
-  }
-
   componentWillUnmount() {
     this.untrack()
   }
 
   untrack() {
-    this.props.dispatch(stopTracking(this.props.subject.name))
+    this.props.dispatch({ type: actionTypes.STOP_TRACKING, subject: this.props.subject.name })
   }
 
   scrollId() {
@@ -36,8 +33,12 @@ export default class extends Component {
   unreadTweets() {
     const { tweets } = this.props.subject
     const unreadCount = tweets.filter(t => !t.read).length
+    const text = `${unreadCount} unread tweets (read more)`
+
     return (
-      <a className='pure-button pure-button-primary' onClick={::this.readAll}>{`${unreadCount} unread tweets (read more)`}</a>
+      <a className='pure-button pure-button-primary' onClick={::this.readAll}>
+        {text}
+      </a>
     )
   }
 

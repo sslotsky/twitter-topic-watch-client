@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react'
 import Tracker from './Tracker'
 import { trackSubject } from './actions'
 import { connect } from 'react-redux'
+import * as actionTypes from './constants'
 
 class App extends Component {
   static propTypes = {
@@ -12,7 +13,7 @@ class App extends Component {
   handleSubmit(e) {
     e.preventDefault()
     const subject = this.input.value
-    this.props.dispatch(trackSubject(subject))
+    this.props.dispatch({ type: actionTypes.TRACK_SUBJECT, subject: subject })
     this.input.value = null
   }
 
