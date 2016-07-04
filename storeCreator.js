@@ -1,4 +1,5 @@
-export default function createStore(initialState, registrar) {
-  return (state = initialState, action, handlers = registrar(state, action)) =>
-    handlers[action.type] ? handlers[action.type]() : state
+export default function createStore(initialState, handlers) {
+  return function (state = initialState, action) {
+    return handlers[action.type] ? handlers[action.type](state, action) : state
+  }
 }

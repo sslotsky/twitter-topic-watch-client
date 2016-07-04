@@ -30,7 +30,8 @@ class App extends Component {
             {
               this.props.subjects.map((s, i) => {
                 return (
-                  <div key={`subjects=${i}`} className='pure-u-1-5'>
+                  const key = `subjects=${i}`
+                  <div key={key} className='pure-u-1-5'>
                     <Tracker {...this.props} subject={s.toJS()} />
                   </div>
                 )

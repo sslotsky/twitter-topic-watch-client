@@ -1,4 +1,5 @@
 import { Map, List } from 'immutable'
+import * as actionTypes from './constants'
 import createStore from '../storeCreator'
 
 const initialState = Map({
@@ -16,8 +17,6 @@ function trackNewSubject(state, action) {
   })
 }
 
-export default createStore(initialState, (state, action) => {
-  return {
-    'TRACK_SUBJECT': () => trackNewSubject(state, action)
-  }
+export default createStore(initialState, {
+  [actionTypes.TRACK_SUBJECT]: trackNewSubject
 })
