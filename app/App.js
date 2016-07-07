@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import Tracker from './Tracker'
 
 class App extends Component {
-  static propTypes = {
-    subjects: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
@@ -19,7 +20,7 @@ class App extends Component {
       <div>
         <div className='header'>
           <h1>Twitter Topic Watch</h1>
-          <form className='pure-form' onSubmit={::this.handleSubmit}>
+          <form className='pure-form' onSubmit={this.handleSubmit}>
             <input type='text' ref={(node) => this.input = node} />
             &nbsp;
             <button type='submit' className='pure-button pure-button-primary'>Track!</button>
@@ -29,8 +30,8 @@ class App extends Component {
           <div className='pure-g'>
             {
               this.props.subjects.map((s, i) => {
+                const key = `subjects=${i}`
                 return (
-                  const key = `subjects=${i}`
                   <div key={key} className='pure-u-1-5'>
                     <Tracker {...this.props} subject={s.toJS()} />
                   </div>
@@ -48,6 +49,11 @@ function mapStateToProps(state) {
   return {
     subjects: state.get('subjects')
   }
+}
+
+App.propTypes = {
+  subjects: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps)(App)
