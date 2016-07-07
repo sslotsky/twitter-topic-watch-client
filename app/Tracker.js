@@ -1,16 +1,13 @@
-import React, { PropTypes, Component } from 'react'
+import React, { PropTypes } from 'react'
 
-export default class extends Component {
-  static propTypes = {
-    subject: PropTypes.object.isRequired
-  }
+const Tracker = ({ subject: { name } }) => (
+  <div className="tracker">
+    <h2>{name}</h2>
+  </div>
+)
 
-  render() {
-    const { name } = this.props.subject
-    return (
-      <div className='tracker'>
-        <h2>{name}</h2>
-      </div>
-    )
-  }
+Tracker.propTypes = {
+  subject: PropTypes.object.isRequired,
 }
+
+export default Tracker;
