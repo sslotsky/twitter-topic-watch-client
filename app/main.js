@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './app/App'
-import './styles.scss'
-import reducer from './app/reducer.js'
+import App from './components/App'
+import '../styles.scss'
+import reducer from './reducer.js'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
@@ -14,5 +14,5 @@ ReactDOM.render((
       <App />
     </div>
   </Provider>
-), document.getElementById("app"))
+), document.getElementById('app'))
 

@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable'
 import * as actionTypes from './constants'
-import createStore from '../storeCreator'
+import createStore from './storeCreator'
 
 const initialState = Map({
   subjects: List()
@@ -8,8 +8,9 @@ const initialState = Map({
 
 function trackNewSubject(state, action) {
   const subjects = state.get('subjects')
-  if (subjects.some(s => s.get('name') === action.name))
+  if (subjects.some(s => s.get('name') === action.name)) {
     return state
+  }
 
   const subject = Map({ name: action.name, tweets: List(), visibleCount: 50 })
   return state.merge({

@@ -3,9 +3,12 @@ var webpack = require('webpack')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 module.exports = {
-  entry: './main.js',
+  entry: './app/main.js',
   output: { path: __dirname, filename: 'bundle.js' },
   devtool: "#source-map",
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [{
       test: /.jsx?$/,

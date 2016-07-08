@@ -1,17 +1,31 @@
 import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
 import Tracker from './Tracker'
+import { track } from '../actions'
 
 class App extends Component {
   static propTypes = {
     subjects: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired
+    trackSubject: PropTypes.func.isRequired
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.dispatch({ type: 'TRACK_SUBJECT', name: this.input.value })
+    this.props.trackSubject(this.input.value);
     this.input.value = null
+  }
+
+  subjects() {
+    return (
+      this.props.subjects.map((s, i) => {
+        const key = `subjects=${i}`
+        return (
+          <div key={key} className='pure-u-1-5'>
+            <Tracker {...this.props} subject={s.toJS()} />
+          </div>
+        )
+      })
+    )
   }
 
   render() {
@@ -19,7 +33,7 @@ class App extends Component {
       <div>
         <div className='header'>
           <h1>Twitter Topic Watch</h1>
-          <form className='pure-form' onSubmit={::this.handleSubmit}>
+          <form className='pure-form' onSubmit={(e) => this.handleSubmit(e)}>
             <input type='text' ref={(node) => this.input = node} />
             &nbsp;
             <button type='submit' className='pure-button pure-button-primary'>Track!</button>
@@ -27,16 +41,7 @@ class App extends Component {
         </div>
         <div className='content'>
           <div className='pure-g'>
-            {
-              this.props.subjects.map((s, i) => {
-                return (
-                  const key = `subjects=${i}`
-                  <div key={key} className='pure-u-1-5'>
-                    <Tracker {...this.props} subject={s.toJS()} />
-                  </div>
-                )
-              })
-            }
+            {this.subjects()}
           </div>
         </div>
       </div>
@@ -50,4 +55,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, { trackSubject: track })(App)
