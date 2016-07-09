@@ -74,7 +74,7 @@ export default class extends Component {
               return (
                 <div key={`${name}-tweets-${i}`}>
                   <div className='pure-g'>
-                    <div className='pure-u-1-8'>
+                    <div className='pure-u-1-4'>
                       <img src={t.user.profile_image_url} />
                     </div>
                     <div className='pure-u-1-4'>
