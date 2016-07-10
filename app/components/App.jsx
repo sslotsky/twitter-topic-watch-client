@@ -1,9 +1,31 @@
 import React, { PropTypes, Component } from 'react'
+import { connect } from 'react-redux'
+import { track } from '../action'
+import Tracker from './Tracker'
 
-export default class App extends Component {
+class App extends Component {
+  static propTypes = {
+    subjects: PropTypes.object.isRequired,
+    trackSubject: PropTypes.func.isRequired
+  }
+
   handleSubmit(e) {
     e.preventDefault()
+    this.props.trackSubject(this.input.value)
     this.input.value = null
+  }
+
+  subjects() {
+    return (
+      this.props.subjects.map((s, i) => {
+        const key = `subjects=${i}`
+        return (
+          <div key={key} className='pure-u-1-5'>
+            <Tracker subject={s.toJS()} />
+          </div>
+        )
+      })
+    )
   }
 
   render() {
@@ -19,9 +41,18 @@ export default class App extends Component {
         </div>
         <div className='content'>
           <div className='pure-g'>
+            {this.subjects()}
           </div>
         </div>
       </div>
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    subjects: state.get('subjects')
+  }
+}
+
+export default connect(mapStateToProps, { trackSubject: track })(App)
