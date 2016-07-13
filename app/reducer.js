@@ -31,7 +31,7 @@ function trackNewSubject(state, action) {
 function prependTweets(state, action) {
   const subjects = mapState(state, action, s => {
     const tweets = action.tweets.map(t =>
-      Map(t).merge({ read: false })
+      Map(t).set('read', false)
     )
 
     return s.merge({

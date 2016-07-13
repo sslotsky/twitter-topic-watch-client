@@ -9,15 +9,9 @@ class App extends Component {
     listenToSubject: PropTypes.func.isRequired
   }
 
-  handleSubmit(e) {
-    e.preventDefault()
-    this.props.listenToSubject(this.input.value)
-    this.input.value = null
-  }
-
-  subjects() {
+  static renderTrackers(subjects) {
     return (
-      this.props.subjects.map((s, i) => {
+      subjects.map((s, i) => {
         const key = `subjects=${i}`
         return (
           <div key={key} className='pure-u-1-5'>
@@ -28,7 +22,15 @@ class App extends Component {
     )
   }
 
+  handleSubmit(e) {
+    e.preventDefault()
+    this.props.listenToSubject(this.input.value)
+    this.input.value = null
+  }
+
   render() {
+    const { subjects } = this.props;
+
     return (
       <div>
         <div className='header'>
@@ -41,7 +43,7 @@ class App extends Component {
         </div>
         <div className='content'>
           <div className='pure-g'>
-            {this.subjects()}
+            {App.renderTrackers(subjects)}
           </div>
         </div>
       </div>
