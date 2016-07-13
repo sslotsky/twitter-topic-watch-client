@@ -10,30 +10,26 @@ class Tracker extends Component {
     more: PropTypes.func.isRequired
   }
 
-  readAll() {
-    const { readAll, subject } = this.props
-    readAll(subject.name)
-    this.scrollTop.scrollTop = 0
+  static untrack({ untrack, subject: { name } }) {
+    untrack(name)
   }
 
-  untrack() {
-    const { untrack, subject } = this.props
-    untrack(subject.name)
+  static viewMore({ more, subject: { name } }) {
+    more(name)
   }
 
-  viewMore() {
-    const { more, subject } = this.props
-    more(subject.name)
-  }
-
-  viewedTweets() {
-    const { tweets } = this.props.subject
+  static viewedTweets({ subject: { tweets } }) {
     return tweets.filter(t => t.read)
   }
 
-  visibleTweets() {
-    const { visibleCount } = this.props.subject
-    return this.viewedTweets().slice(0, visibleCount)
+  static visibleTweets(props) {
+    return Tracker.viewedTweets(props).slice(0, props.visibleCount)
+  }
+
+  readAll() {
+    const { readAll, subject: { name } } = this.props
+    readAll(name)
+    this.container.scrollTop = 0
   }
 
   unreadTweets() {
@@ -49,25 +45,25 @@ class Tracker extends Component {
   tweets() {
     const { name } = this.props.subject
 
-    return this.visibleTweets().map((t, i) =>
+    return Tracker.visibleTweets(this.props).map(({ user, text, created_at }, i) =>
       <div key={`${name}-tweets-${i}`}>
         <div className='pure-g'>
           <div className='pure-1-4'>
-            <img src={t.user.profile_image_url} />
+            <img src={user.profile_image_url} />
           </div>
           <div className='pure-u-1-4'>
-            <strong>{t.user.name}</strong>
+            <strong>{user.name}</strong>
           </div>
         </div>
-        <p>{t.text}</p>
-        <p>{t.created_at}</p>
+        <p>{text}</p>
+        <p>{created_at}</p>
       </div>
     )
   }
 
   viewMoreLink() {
-    if (this.viewedTweets().length > this.props.subject.visibleCount) {
-      return <a onClick={() => this.viewMore()}>View More...</a>
+    if (Tracker.viewedTweets(this.props).length > this.props.subject.visibleCount) {
+      return <a onClick={() => Tracker.viewMore(this.props)}>View More...</a>
     }
 
     return false
@@ -81,9 +77,9 @@ class Tracker extends Component {
         <div className='subject-header'>
           <h2>{name}</h2>
           {this.unreadTweets()}
-          <a onClick={() => this.untrack()} className='pure-button button-warning'>Untrack</a>
+          <a onClick={() => Tracker.untrack(this.props)} className='pure-button button-warning'>Untrack</a>
         </div>
-        <div className='tweets' ref={(node) => this.scrollTop = node}>
+        <div className='tweets' ref={(node) => this.container = node}>
           {this.tweets()}
           {this.viewMoreLink()}
         </div>
@@ -94,5 +90,9 @@ class Tracker extends Component {
 
 export default connect(
   () => ({}),
-  { readAll: readAllTweets, untrack: untrackSubject, more: viewMore  }
+  {
+    readAll: readAllTweets,
+    untrack: untrackSubject,
+    more: viewMore,
+  }
 )(Tracker)

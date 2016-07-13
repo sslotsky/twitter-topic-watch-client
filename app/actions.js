@@ -1,27 +1,23 @@
 import * as actionTypes from './constants'
 import socket, { channel } from './socket'
 
-export function track(name) {
-  return {
-    type: actionTypes.TRACK_SUBJECT,
-    name
-  }
-}
+const dispatchTweets = dispatch => tweets => dispatch({
+  type: actionTypes.TWEETS_RECEIVED,
+  tweets,
+  subject: name,
+  read: false
+})
 
-export function listen(name) {
-  return dispatch => {
-    dispatch(track(name))
+export const track = name => ({
+  type: actionTypes.TRACK_SUBJECT,
+  name
+})
 
-    socket.emit('track', name)
-    channel(name).on('tweets', tweets => {
-      dispatch({
-        type: actionTypes.TWEETS_RECEIVED,
-        tweets,
-        subject: name,
-        read: false
-      })
-    })
-  }
+export const listen = name => dispatch => {
+  dispatch(track(name))
+
+  socket.emit('track', name)
+  channel(name).on('tweets', dispatchTweets(dispatch))
 }
 
 export function readAllTweets(name) {

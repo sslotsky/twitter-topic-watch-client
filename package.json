@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors -w",
-    "lint": "eslint ./app"
+    "lint": "eslint ./app/**/*"
   },
   "author": "",
   "license": "ISC",
