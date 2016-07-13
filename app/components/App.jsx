@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
-import { track } from '../action'
+import { track } from '../actions'
 import Tracker from './Tracker'
 
 class App extends Component {
