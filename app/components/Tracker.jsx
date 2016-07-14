@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 
-export default class extends Component {
+export default class Tracker extends Component {
   static propTypes = {
     subject: PropTypes.object.isRequired
   }
