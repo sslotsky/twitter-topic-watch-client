@@ -42,6 +42,17 @@ function untrackSubject(state, action) {
   return state.merge({ subjects })
 }
 
+function prependTweets(state, action) {
+  const subjects = mapSubjects(state, action, s => {
+    const tweets = action.tweets.map(t => Map(t))
+    return s.merge({
+      unreadTweets: List(tweets).concat(s.get('unreadTweets'))
+    })
+  })
+
+  return state.merge({ subjects })
+}
+
 function trackNewSubject(state, action) {
   const subjects = state.get('subjects')
   if (subjects.some(s => s.get('name') === action.name)) {
@@ -64,5 +75,6 @@ export default resolve(initialState, {
   [actionTypes.TRACK_SUBJECT]: trackNewSubject,
   [actionTypes.READ_ALL_TWEETS]: readAllTweets,
   [actionTypes.VIEW_MORE_TWEETS]: viewMoreTweets,
-  [actionTypes.UNTRACK_SUBJECT]: untrackSubject
+  [actionTypes.UNTRACK_SUBJECT]: untrackSubject,
+  [actionTypes.TWEETS_RECEIVED]: prependTweets
 })
