@@ -34,7 +34,7 @@ class App extends Component {
         <div className='header'>
           <h1>Twitter Topic Watch</h1>
           <form className='pure-form' onSubmit={(e) => this.handleSubmit(e)}>
-            <input type='text' ref={(node) => this.input = node} />
+            <input type='text' ref={(node) => { this.input = node }} />
             &nbsp;
             <button type='submit' className='pure-button pure-button-primary'>Track!</button>
           </form>
