@@ -18,7 +18,7 @@ export class Tracker extends Component {
   unreadTweets() {
     const { unreadTweets } = this.props.subject
     return (
-      <a className='pure-button pure-button-primary' onClick={() => this.readAll()}>
+      <a className="pure-button pure-button-primary" onClick={() => this.readAll()}>
         {`${unreadTweets.length} unread tweets (read more)`}
       </a>
     )
@@ -27,12 +27,12 @@ export class Tracker extends Component {
   render() {
     const { name, readTweets } = this.props.subject
     return (
-      <div className='tracker'>
-        <div className='subject-header'>
+      <div className="tracker">
+        <div className="subject-header">
           <h2>{name}</h2>
           {this.unreadTweets()}
         </div>
-        <div className='tweets' ref={(node) => { this.scrollTop = node }}>
+        <div className="tweets" ref={(node) => { this.scrollTop = node }}>
           <Tweets tweets={readTweets} />
         </div>
       </div>

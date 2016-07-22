@@ -20,7 +20,7 @@ class App extends Component {
       this.props.subjects.map((s, i) => {
         const key = `subjects=${i}`
         return (
-          <div key={key} className='pure-u-1-5'>
+          <div key={key} className="pure-u-1-5">
             <Tracker subject={s.toJS()} />
           </div>
         )
@@ -31,16 +31,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className='header'>
+        <div className="header">
           <h1>Twitter Topic Watch</h1>
-          <form className='pure-form' onSubmit={(e) => this.handleSubmit(e)}>
-            <input type='text' ref={(node) => { this.input = node }} />
+          <form className="pure-form" onSubmit={(e) => this.handleSubmit(e)}>
+            <input type="text" ref={(node) => { this.input = node }} />
             &nbsp;
-            <button type='submit' className='pure-button pure-button-primary'>Track!</button>
+            <button type="submit" className="pure-button pure-button-primary">Track!</button>
           </form>
         </div>
-        <div className='content'>
-          <div className='pure-g'>
+        <div className="content">
+          <div className="pure-g">
             {this.subjects()}
           </div>
         </div>

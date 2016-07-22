@@ -6,7 +6,6 @@
     "new-cap": [2, { "capIsNewExceptions": ["List", "Map"] }],
     "semi": [2, "never"],
     "comma-dangle": [2, "never"],
-    "jsx-quotes": ["error", "prefer-single"],
     "react/prefer-stateless-function": ["off"]
   }
 }
