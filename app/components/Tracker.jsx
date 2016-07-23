@@ -8,7 +8,7 @@ export default class Tracker extends Component {
   render() {
     const { name } = this.props.subject
     return (
-      <div className='tracker'>
+      <div className="tracker">
         <h2>{name}</h2>
       </div>
     )
