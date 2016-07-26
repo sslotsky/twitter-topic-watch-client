@@ -1,17 +1,17 @@
 import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
-import { track } from '../actions'
+import { listen } from '../actions'
 import Tracker from './Tracker'
 
 class App extends Component {
   static propTypes = {
     subjects: PropTypes.object.isRequired,
-    trackSubject: PropTypes.func.isRequired
+    listenToSubject: PropTypes.func.isRequired
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.trackSubject(this.input.value)
+    this.props.listenToSubject(this.input.value)
     this.input.value = null
   }
 
@@ -55,4 +55,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { trackSubject: track })(App)
+export default connect(mapStateToProps, { listenToSubject: listen })(App)
