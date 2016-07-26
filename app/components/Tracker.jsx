@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import Tweets from './Tweets'
-import * as actions from '../actions'
+import * as trackingActions from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -18,7 +18,7 @@ export class Tracker extends Component {
 
   untrack() {
     const { subject, actions } = this.props
-    actions.ignore(subject.name)
+    actions.untrack(subject.name)
   }
 
   unreadTweets() {
@@ -46,7 +46,7 @@ export class Tracker extends Component {
         <div className="subject-header">
           <h2>{name}</h2>
           {this.unreadTweets()}
-          <a onClick={() => this.untrack()} className='pure-button button-warning'>Untrack</a>
+          <a onClick={() => this.untrack()} className="pure-button button-warning">Untrack</a>
         </div>
         <div className="tweets" ref={(node) => { this.scrollTop = node }}>
           <Tweets tweets={readTweets.slice(0, visibleCount)} />
@@ -61,9 +61,9 @@ export default connect(
   () => ({}),
   dispatch => ({
     actions: bindActionCreators({
-      readAll: actions.readAllTweets,
-      viewMore: actions.viewMoreTweets,
-      ignore: actions.ignore
+      readAll: trackingActions.readAllTweets,
+      viewMore: trackingActions.viewMoreTweets,
+      untrack: trackingActions.untrackSubject
     }, dispatch)
   })
 )(Tracker)
