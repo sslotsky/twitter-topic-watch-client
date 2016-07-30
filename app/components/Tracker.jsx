@@ -1,17 +1,18 @@
 import React, { PropTypes, Component } from 'react'
 import Tweets from './Tweets'
-import { readAllTweets } from '../actions'
+import * as actionCreators from '../actions'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 export class Tracker extends Component {
   static propTypes = {
     subject: PropTypes.object.isRequired,
-    readAll: PropTypes.func.isRequired
+    actions: PropTypes.object.isRequired
   }
 
   readAll() {
-    const { subject, readAll } = this.props
-    readAll(subject.name)
+    const { subject, actions } = this.props
+    actions.readAll(subject.name)
     this.scrollTop.scrollTop = 0
   }
 
@@ -42,5 +43,9 @@ export class Tracker extends Component {
 
 export default connect(
   () => ({}),
-  { readAll: readAllTweets }
+  dispatch => ({
+    actions: bindActionCreators({
+      readAll: actionCreators.readAllTweets
+    }, dispatch)
+  })
 )(Tracker)
