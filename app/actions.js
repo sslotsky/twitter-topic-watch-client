@@ -43,3 +43,11 @@ export function untrackSubject(name) {
     name
   }
 }
+
+export function ignore(name) {
+  return dispatch => {
+    dispatch(untrackSubject(name))
+    channel(name).removeAllListeners('tweets')
+    socket.emit('untrack', name)
+  }
+}
